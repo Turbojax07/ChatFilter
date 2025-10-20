@@ -1,0 +1,44 @@
+##
+## Wordlist Settings
+##
+
+# Should the plugin download a wordlist or use a local one?
+use-remote-wordlist: true
+
+# Local wordlist location (Starts from the ChatFilter folder)
+wordlist-file: "wordlist.txt"
+
+# Remote wordlist URL
+wordlist-url: "https://raw.githubusercontent.com/coffee-and-fun/google-profanity-words/main/data/en.txt"
+
+# Should the plugin overwrite the wordlist file if it already exists?
+override-wordlist-file: false
+
+##
+## Monitoring Settings
+##
+
+# Would you like to detect links? EX: https://youtube.com
+detect-links: true
+
+# How should the plugin handle messages?
+# Possible values are "delete", "censor", and "ignore"
+# "delete" prevents the message from being sent.
+# "censor" replaces all blocked words with asterisks.
+# "ignore" does nothing to the message.
+# How should the plugin handle chat messages?
+handle-chat-message: "censor"
+# How should the plugin handle items named in anvils?
+handle-anvil-rename: "censor"
+
+##
+## Logging Settings
+##
+
+# Should the plugin notify players to players with the "chatfilter.notify" permission?
+log-detections-to-players: true
+# Should the plugin save detections to a log file?
+log-detections-to-file: true
+
+## DO NOT CHANGE THIS
+version: "1.0.0"
