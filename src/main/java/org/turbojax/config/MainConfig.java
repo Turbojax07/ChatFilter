@@ -125,6 +125,10 @@ public class MainConfig {
         return config.getString("handle-anvil-rename", "censor");
     }
 
+    public static String anvilDefaultName() {
+        return config.getString("anvil-default-name");
+    }
+
     public static boolean logDetectionsToPlayers() {
         return config.getBoolean("log-detections-to-players", true);
     }

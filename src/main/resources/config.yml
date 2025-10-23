@@ -23,13 +23,15 @@ detect-links: true
 
 # How should the plugin handle messages?
 # Possible values are "delete", "censor", and "ignore"
-# "delete" prevents the message from being sent.
+# "cancel" prevents the message from being sent.
 # "censor" replaces all blocked words with asterisks.
 # "ignore" does nothing to the message.
 # How should the plugin handle chat messages?
 handle-chat-message: "censor"
 # How should the plugin handle items named in anvils?
 handle-anvil-rename: "censor"
+# Anvils cant give empty names, so what should it default to if "handle-anvil-rename" is cancelled?
+anvil-default-name: "CENSORED"
 
 ##
 ## Logging Settings
