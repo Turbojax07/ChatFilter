@@ -19,12 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import org.turbojax.config.MainConfig;
 
 public class WordlistManager {
-    private static File wordlist;
+    private static File wordlist = new File(MainConfig.wordlistFile());
     private static final List<String> blockedWords = new ArrayList<>();
-
-    public WordlistManager() {
-        wordlist = new File(MainConfig.wordlistFile());
-    }
 
     public static void addWord(String word) {
         blockedWords.add(word);
