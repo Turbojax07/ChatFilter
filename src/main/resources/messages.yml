@@ -12,6 +12,8 @@
 # %action_taken%: Whether the message was deleted, censored, or ignore.
 # %file%: The name of the file within the context of the message.
 
+# All messages that support formatting support both minimessage and legacy formatting.
+# Unless a message directly states that it does not support formatting, assume it does
 
 # This is the config that defines the %prefix% placeholder.
 # Supported Placeholders: %main_color%
@@ -35,3 +37,31 @@ detection-message:
   - "&8▪ &fBlacklisted words: %main_color%%detected_words%"
   - "&8▪ &fTyped in: %main_color%%where_blocked%"
   - ""
+
+# What to write in the log file
+filter-anvil-ignore-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Name ignored."
+filter-anvil-censor-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Name censored to \"%censored_message%\"."
+filter-anvil-cancel-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Renaming cancelled."
+filter-chat-ignore-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message ignored."
+filter-chat-censor-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message censored to \"%censored_message%\"."
+filter-chat-cancel-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message cancelled."
+
+# What to send to the player
+filter-anvil-ignore-message: ""
+filter-anvil-cancel-message: ""
+filter-anvil-censor-message: ""
+filter-anvil-ignore-message: ""
+filter-chat-censor-message: "%prefix%<red>Part of your message was censored due to containing blacklisted words."
+filter-chat-cancel-message: "%prefix%<red>Your message was not sent due to containing blacklisted words."
+
+# What to send to players with the "chatfilter.notify" permission
+filter-anvil-ignore-warning: ""
+filter-anvil-censor-warning: ""
+filter-anvil-cancel-warning: ""
+filter-chat-ignore-warning: ""
+filter-chat-censor-warning: ""
+filter-chat-cancel-warning: ""
+
+# Console Errors
+# These do not support formatting
+version-uri-error: "Could not parse the github URL.  Contact Turbo."
