@@ -1,12 +1,5 @@
 package org.turbojax;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.stream.Stream;
 import net.kyori.adventure.text.Component;
@@ -45,22 +38,7 @@ public class ChatFilterCommand implements TabExecutor {
 
                 // Redownloading the wordlist if configs allow
                 if (MainConfig.useRemoteWordlist()) {
-                    try {
-                        // Downloading the wordlist
-                        if (MainConfig.overrideWordlistFile()) {
-                            // TODO: WORDLIST_OVERRIDDEN("wordlist-overridden", "%prefix%The wordlist will be overridden if it exists.")
-                            Files.copy(new URI(MainConfig.wordlistUrl()).toURL().openStream(), ChatFilter.wordlist.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        } else {
-                            Files.copy(new URI(MainConfig.wordlistUrl()).toURL().openStream(), ChatFilter.wordlist.toPath());
-                        }
-                        // TODO: WORDLIST_SAVED("wordlist-saved", "%prefix%The wordlist has been saved.")
-                    } catch(FileAlreadyExistsException e) {
-                        // TODO: WORDLIST_OVERRIDE_STOPPED("wordlist-override-stopped", "%prefix%Cannot override the wordlist with the remote copy.")
-                    } catch (URISyntaxException | MalformedURLException e) {
-                        // TODO: WORDLIST_MALFORMED_URL("wordlist-malformed-url", "The provided URL \"%url%\" is not a valid link.")
-                    } catch (IOException e) {
-                        // TODO: WORDLIST_DOWNLOAD_ERROR("wordlist-download-error", "Could not download the wordlist from \"%url%\"")
-                    }
+                    WordlistManager.redownload();
                 }
                 break;
             case "add":
@@ -79,7 +57,7 @@ public class ChatFilterCommand implements TabExecutor {
 
                 sender.sendMessage("%prefix%: The blocked words are:");
                 StringBuilder builder = new StringBuilder("- ");
-                List<String> blockedWords = ChatFilter.getBlockedWords();
+                List<String> blockedWords = WordlistManager.getBlockedWords();
                 for (int i = 0; i < blockedWords.size(); i++) {
                     // Printing the line and resetting the builder
                     if (builder.length() > 100) {
@@ -109,7 +87,7 @@ public class ChatFilterCommand implements TabExecutor {
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1) return Stream.of("help", "reload", "add", "list", "remove").filter(s -> s.startsWith(args[0])).toList();
 
-        if (args.length == 2 && args[0].equalsIgnoreCase("remove")) return ChatFilter.getBlockedWords().stream().filter(s -> s.startsWith(args[2])).toList();
+        if (args.length == 2 && args[0].equalsIgnoreCase("remove")) return WordlistManager.getBlockedWords().stream().filter(s -> s.startsWith(args[2])).toList();
 
         return List.of();
     }

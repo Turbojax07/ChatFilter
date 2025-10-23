@@ -1,17 +1,11 @@
 package org.turbojax;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.turbojax.config.MainConfig;
@@ -48,7 +42,7 @@ public final class ChatFilter extends JavaPlugin {
         Messages.load();
 
         // Defining the wordlist file
-        wordlist = new File(MainConfig.wordlistFile());
+        WordlistManager.reload();
 
         // Registering the command executors
         PluginCommand cmd = getCommand("chatfilter");
