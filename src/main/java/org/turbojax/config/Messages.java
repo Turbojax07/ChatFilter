@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -35,6 +36,7 @@ public enum Messages {
 
     public static final MiniMessage minimessageSerializer = MiniMessage.miniMessage();
     public static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.legacyAmpersand();
+    public static final PlainTextComponentSerializer plaintext = PlainTextComponentSerializer.plainText();
 
     public final String configKey;
     public final String defaultValue;
