@@ -45,7 +45,7 @@ public class WordlistManager {
         return foundWords;
     }
 
-    public static List<String> getBlockedwords() {
+    public static List<String> getBlockedWords() {
         return blockedWords;
     }
 
