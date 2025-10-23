@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.view.AnvilView;
 import org.turbojax.WordlistManager;
 import org.turbojax.config.MainConfig;
-import org.turbojax.config.Messages;
+import org.turbojax.config.Message;
 
 public class AnvilRenameListener implements Listener {
     public void onAnvilRename(InventoryClickEvent event) {
@@ -40,7 +40,7 @@ public class AnvilRenameListener implements Listener {
                 // Renaming the output item
                 ItemStack output = anvilView.getItem(2);
                 output.editMeta(meta -> {
-                   meta.displayName(Messages.plaintext.deserialize(MainConfig.anvilDefaultName()));
+                   meta.displayName(Message.plaintext.deserialize(MainConfig.anvilDefaultName()));
                 });
 
                 // FILTER_ANVIL_CANCEL_LOG("filter-anvil-cancel-log", "%prefix%You cannot have the word %word% in the name of your item.")
@@ -53,7 +53,7 @@ public class AnvilRenameListener implements Listener {
                 // Renaming the output item
                 ItemStack output = anvilView.getItem(2);
                 output.editMeta(meta -> {
-                   meta.displayName(Messages.plaintext.deserialize(name.substring(0, bannedWord.getKey()) + "*".repeat(bannedWord.getValue().length()) + name.substring(bannedWord.getKey() + bannedWord.getValue().length()))); 
+                   meta.displayName(Message.plaintext.deserialize(name.substring(0, bannedWord.getKey()) + "*".repeat(bannedWord.getValue().length()) + name.substring(bannedWord.getKey() + bannedWord.getValue().length()))); 
                 });
 
                 // FILTER_ANVIL_CENSOR_LOG("filter-anvil-filter-log", "%prefix%You cannot have the word %word% in the name of your item.")

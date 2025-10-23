@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.turbojax.config.MainConfig;
-import org.turbojax.config.Messages;
+import org.turbojax.config.Message;
 
 public final class ChatFilter extends JavaPlugin {
     private static ChatFilter instance = null;
@@ -39,7 +39,7 @@ public final class ChatFilter extends JavaPlugin {
 
         // Loading configs
         MainConfig.load();
-        Messages.load();
+        Message.load();
 
         // Defining the wordlist file
         WordlistManager.reload();

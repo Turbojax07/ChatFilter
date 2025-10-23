@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.bukkit.Bukkit;
+import java.util.Map;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -26,8 +26,6 @@ public class MainConfig {
             return false;
         }
 
-        String msg;
-
         // Handling version mismatch
         if (!ChatFilter.getPluginVersion().equals(getVersion())) {
             try {
@@ -37,13 +35,9 @@ public class MainConfig {
                 // Loading configs for this version
                 ChatFilter.getInstance().saveResource("config.yml", true);
 
-                msg = Messages.getMessage(Messages.CONFIG_BACKUP_SUCCESS);
-                msg = msg.replace("%file%", file.getName());
-                Bukkit.getConsoleSender().sendMessage(Messages.toComponent(msg));
+                Message.sendToConsole(Message.CONFIG_BACKUP_SUCCESS, Map.of("%file%", file.getName()));
             } catch (IOException e) {
-                msg = Messages.getMessage(Messages.CONFIG_BACKUP_FAIL);
-                msg = msg.replace("%file%", file.getName());
-                Bukkit.getConsoleSender().sendMessage(Messages.toComponent(msg));
+                Message.sendToConsole(Message.CONFIG_BACKUP_FAIL, Map.of("%file%", file.getName()));
                 return false;
             }
         }
@@ -52,18 +46,12 @@ public class MainConfig {
         try {
             config.load(file);
 
-            msg = Messages.getMessage(Messages.CONFIG_LOADED);
-            msg = msg.replace("%file%", file.getName());
-            Bukkit.getConsoleSender().sendMessage(Messages.toComponent(msg));
+            Message.sendToConsole(Message.CONFIG_LOADED, Map.of("%file%", file.getName()));
             return true;
         } catch (InvalidConfigurationException err) {
-            msg = Messages.getMessage(Messages.CONFIG_INVALID_YAML);
-            msg = msg.replace("%file%", file.getName());
-            Bukkit.getConsoleSender().sendMessage(Messages.toComponent(msg));
+            Message.sendToConsole(Message.CONFIG_INVALID_YAML, Map.of("%file%", file.getName()));
         } catch (IOException err) {
-            msg = Messages.getMessage(Messages.CONFIG_NOT_FOUND);
-            msg = msg.replace("%file%", file.getName());
-            Bukkit.getConsoleSender().sendMessage(Messages.toComponent(msg));
+            Message.sendToConsole(Message.CONFIG_NOT_FOUND, Map.of("%file%", file.getName()));
         }
 
         return false;
@@ -82,18 +70,14 @@ public class MainConfig {
             ChatFilter.getInstance().saveResource(file.getName(), replace);
         }
 
-        String msg;
         // Checking if the file still doesn't exist.
+        System.out.println("File exists: " + file.exists());
         if (!file.exists()) {
-            msg = Messages.getMessage(Messages.CONFIG_CANNOT_CREATE);
-            msg = msg.replace("%file%", file.getName());
-            Bukkit.getConsoleSender().sendMessage(Messages.toComponent(msg));
+            Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
             return false;
         }
 
-        msg = Messages.getMessage(Messages.CONFIG_CREATED);
-        msg = msg.replace("%file%", file.getName());
-        Bukkit.getConsoleSender().sendMessage(Messages.toComponent(msg));
+        Message.sendToConsole(Message.CONFIG_CREATED, Map.of("%file%", file.getName()));
         return true;
     }
 
@@ -143,6 +127,8 @@ public class MainConfig {
      * @return The version number defined by the config.
      */
     public static String getVersion() {
-        return config.getString("version");
+        String v = config.getString("version");
+        System.out.println(v);
+        return v;
     }
 }

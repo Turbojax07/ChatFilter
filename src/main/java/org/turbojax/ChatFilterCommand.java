@@ -10,13 +10,13 @@ import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.turbojax.config.MainConfig;
-import org.turbojax.config.Messages;
+import org.turbojax.config.Message;
 
 public class ChatFilterCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission("chatfilter.use")) {
-            sender.sendMessage(Messages.toComponent(Messages.NO_PERMISSION));
+            Message.send(sender, Message.NO_PERMISSION, Message.getCommonPlaceholders());
         }
 
         if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
@@ -34,7 +34,7 @@ public class ChatFilterCommand implements TabExecutor {
 
                 // Reloading the configs
                 MainConfig.load();
-                Messages.load();
+                Message.load();
 
                 // Redownloading the wordlist if configs allow
                 if (MainConfig.useRemoteWordlist()) {
