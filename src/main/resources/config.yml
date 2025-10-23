@@ -31,6 +31,7 @@ handle-chat-message: "censor"
 # How should the plugin handle items named in anvils?
 handle-anvil-rename: "censor"
 # Anvils cant give empty names, so what should it default to if "handle-anvil-rename" is cancelled?
+# This does not support formatting codes
 anvil-default-name: "CENSORED"
 
 ##
