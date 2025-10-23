@@ -3,9 +3,11 @@ package org.turbojax;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 import org.turbojax.config.MainConfig;
 
@@ -28,12 +30,16 @@ public class WordlistManager {
     }
 
     @NotNull
-    public static List<String> getBannedWords(String message) {
-        List<String> foundWords = new ArrayList<>();
-        for (String blockedWord : blockedWords) {
-            if (message.contains(" " + blockedWord + " ")) {
-                foundWords.add(blockedWord);
-            }
+    public static HashMap<Integer,String> getBannedWords(String message) {
+        HashMap<Integer,String> foundWords = new HashMap<>();
+        StringBuilder builder = new StringBuilder();
+
+        blockedWords.forEach(w -> { builder.append("|"); builder.append(w); });
+        Pattern pattern = Pattern.compile("\\b" + builder.substring(1) + "\\b");
+        Matcher matcher = pattern.matcher(message);
+        
+        while (matcher.find()) {
+            foundWords.put(matcher.start(), matcher.group());
         }
 
         return foundWords;
