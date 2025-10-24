@@ -2,6 +2,7 @@ package org.turbojax.listeners;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -12,6 +13,7 @@ import org.turbojax.config.MainConfig;
 import org.turbojax.config.Message;
 
 public class AnvilRenameListener implements Listener {
+    @EventHandler
     public void onAnvilRename(InventoryClickEvent event) {
         // Skipping non-anvil events
         if (event.getInventory().getType() != InventoryType.ANVIL) return;

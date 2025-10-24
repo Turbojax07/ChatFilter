@@ -2,12 +2,14 @@ package org.turbojax.listeners;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.turbojax.WordlistManager;
 import org.turbojax.config.MainConfig;
 
 public class ChatListener implements Listener {
+    @EventHandler
     public void onPlayerChat(PlayerChatEvent event) {
         // Ignoring if the config says so
         if (MainConfig.handleChatMessage().equalsIgnoreCase("ignore")) {
