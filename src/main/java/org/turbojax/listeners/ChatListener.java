@@ -12,12 +12,12 @@ public class ChatListener implements Listener {
     @EventHandler
     public void onPlayerChat(PlayerChatEvent event) {
         // Ignoring if the config says so
-        if (MainConfig.handleChatMessage().equalsIgnoreCase("ignore")) {
-            // FILTER_CHAT_IGNORE_LOG("filter-chat-ignore-log", "%prefix%You cannot have the word %word% in the name of your item.")
-            // FILTER_CHAT_IGNORE_MESSAGE("filter-chat-ignore-message", "%prefix%You cannot have the word %word% in the name of your item.")
-            // FILTER_CHAT_IGNORE_WARNING("filter-chat-ignore-warning", "%prefix%You cannot have the word %word% in the name of your item.")
-            return;
-        }
+        if (MainConfig.handleChatMessage().equalsIgnoreCase("ignore")) return;
+
+        Player player = event.getPlayer();
+
+        // Ignoring if the user has the bypass permission
+        if (player.hasPermission("chatfilter.bypass") || player.hasPermission("chatfilter.bypass.chat")) return;
 
         // Getting the message and any blocked words it contains
         String message = event.getMessage();

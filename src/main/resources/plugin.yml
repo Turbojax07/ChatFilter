@@ -34,3 +34,12 @@ permissions:
   chatfilter.command.version:
     description: "Players with this permission are able to use the command \"/clearlag version\"."
     default: op
+  chatfilter.command.save:
+    description: "Players with this permission are able to use the command \"/clearlag save\"."
+    default: op
+  chatfilter.bypass:
+    description: "Allows players to bypass both the rename and chat filters."
+    default: false
+    children:
+      chatfilter.bypass.anvil: false
+      chatfilter.bypass.chat: false

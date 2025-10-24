@@ -19,12 +19,12 @@ public class AnvilRenameListener implements Listener {
         if (event.getInventory().getType() != InventoryType.ANVIL) return;
 
         // Ignoring if the config says so
-        if (MainConfig.handleAnvilRename().equalsIgnoreCase("ignore")) {
-            // FILTER_ANVIL_IGNORE_LOG("filter-anvil-ignore-log", "%prefix%You cannot have the word %word% in the name of your item.")
-            // FILTER_ANVIL_IGNORE_MESSAGE("filter-anvil-ignore-message", "%prefix%You cannot have the word %word% in the name of your item.")
-            // FILTER_ANVIL_IGNORE_WARNING("filter-anvil-ignore-warning", "%prefix%You cannot have the word %word% in the name of your item.")
-            return;
-        }
+        if (MainConfig.handleAnvilRename().equalsIgnoreCase("ignore")) return;
+        
+        HumanEntity player = event.getWhoClicked();
+
+        // Ignoring if the user has the bypass permission
+        if (player.hasPermission("chatfilter.bypass") || player.hasPermission("chatfilter.bypass.anvil")) return;
 
         // Making sure the view is an AnvilView
         if (event.getView() instanceof AnvilView anvilView) {
@@ -35,19 +35,19 @@ public class AnvilRenameListener implements Listener {
             // Ignoring if there are no blocked words.
             if (bannedWords.size() == 0) return;
             
+            // Getting the player and various placeholders
+            Map<String,String> placeholders = new HashMap<>(Map.of("%player%", player.getName(), "%name%", name, "%word%", bannedWords.values().iterator().next()));
+            
             // Cancelling the event if the config says so
             if (MainConfig.handleAnvilRename().equalsIgnoreCase("cancel")) {
                 event.setCancelled(true);
 
-                // Renaming the output item
-                ItemStack output = anvilView.getItem(2);
-                output.editMeta(meta -> {
-                   meta.displayName(Message.plaintext.deserialize(MainConfig.anvilDefaultName()));
-                });
+                // Logging
+                LogManager.log(Message.plaintext.serialize(Message.toComponent(Message.FILTER_ANVIL_CANCEL_LOG, placeholders)));
 
-                // FILTER_ANVIL_CANCEL_LOG("filter-anvil-cancel-log", "%prefix%You cannot have the word %word% in the name of your item.")
-                // FILTER_ANVIL_CANCEL_MESSAGE("filter-anvil-cancel-message", "%prefix%.")
-                // FILTER_ANVIL_CANCEL_WARNING("filter-anvil-cancel-warning")
+                placeholders.putAll(Message.getCommonPlaceholders());
+                Message.send(player, Message.FILTER_ANVIL_CANCEL_MESSAGE, placeholders);
+                Message.send(player, Message.FILTER_ANVIL_CANCEL_WARNING, placeholders);
             }
 
             // Censoring the name if the config says so
