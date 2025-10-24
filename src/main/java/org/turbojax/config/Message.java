@@ -86,7 +86,9 @@ public enum Message {
     // Supported placeholders: %prefix%, %main_color%, %label%
     COMMAND_RELOAD_SUCCESS("command-reload-success", "%prefix%Reloaded configs and wordlist."),
     // Supported placeholders: %prefix%, %main_color%, %label%
-    COMMAND_SAVE_SUCCESS("command-reload-success", "%prefix%Saved the wordlist."),
+    COMMAND_SAVE_CORRECT_USAGE("command-save-correct-usage", "%prefix%<red>Usage: /%label% save."),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_SAVE_SUCCESS("command-save-success", "%prefix%Saved the wordlist."),
     // Supported placeholders: %prefix%, %main_color%, %label%
     COMMAND_HELP_CORRECT_USAGE("command-help-correct-usage", "%prefix%<red>Usage: /%label% help"),
     // Supported placeholders: %prefix%, %main_color%, %label%

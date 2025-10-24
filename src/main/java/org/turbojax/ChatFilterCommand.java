@@ -68,6 +68,18 @@ public class ChatFilterCommand implements TabExecutor {
                 Message.send(sender, Message.COMMAND_RELOAD_SUCCESS, placeholders);
                 break;
             case "save":
+                // Checking permissions
+                if (!sender.hasPermission("chatfilter.command.save")) {
+                    Message.send(sender, Message.NO_PERMISSION, Message.getCommonPlaceholders());
+                    return true;
+                }
+                
+                // Validating arguments
+                if (args.length != 2) {
+                    Message.send(sender, Message.COMMAND_SAVE_CORRECT_USAGE, placeholders);
+                    break;
+                }
+
                 WordlistManager.save();
                 Message.send(sender, Message.COMMAND_SAVE_SUCCESS, placeholders);
                 break;
