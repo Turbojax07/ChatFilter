@@ -15,24 +15,52 @@ import org.turbojax.config.Message;
 public class ChatFilterCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission("chatfilter.use")) {
+        // Collecting placeholders
+        Map<String,String> placeholders = Message.getCommonPlaceholders();
+        placeholders.put("%label%", label);
+
+        // Sending the help message if there are no arguments
+        if (args.length == 0) {
+            // Checking permissions
+            if (!sender.hasPermission("chatfilter.command.help")) {
             Message.send(sender, Message.NO_PERMISSION, Message.getCommonPlaceholders());
+                return true;
         }
 
-        if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
-            // TODO: print help message
+            Message.send(sender, Message.COMMAND_HELP_MESSAGE, placeholders);
             return true;
         }
 
         switch (args[0].toLowerCase()) {
-            case "reload":
+            case "help":
+                // Checking permissions
+                if (!sender.hasPermission("chatfilter.command.help")) {
+                    Message.send(sender, Message.NO_PERMISSION, Message.getCommonPlaceholders());
+                    return true;
+                }
+
                 // Validating arguments
                 if (args.length != 1) {
-                    sender.sendMessage(Component.text("Usage: /chatfilter reload", NamedTextColor.RED));
+                    Message.send(sender, Message.COMMAND_HELP_CORRECT_USAGE, placeholders);
+                }
+
+                // Sending the help message
+                Message.send(sender, Message.COMMAND_HELP_MESSAGE, placeholders);
+                break;
+            case "reload":
+                // Checking permissions
+                if (!sender.hasPermission("chatfilter.command.reload")) {
+                    Message.send(sender, Message.NO_PERMISSION, Message.getCommonPlaceholders());
+                    return true;
+                }
+
+                // Validating arguments
+                if (args.length != 1) {
+                    Message.send(sender, Message.COMMAND_RELOAD_CORRECT_USAGE, placeholders);
                     break;
                 }
 
-                // Reloading the configs
+                // Reloading configs
                 MainConfig.load();
                 Message.load();
 

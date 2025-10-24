@@ -87,15 +87,18 @@ public class WordlistManager {
         // Removing the existing words
         blockedWords.clear();
 
+        Map<String,String> placeholders = Message.getCommonPlaceholders();
+        placeholders.put("%file%", wordlist.getName());
+
         // Loading the contents of the wordlist file into the blockedWords array.
         try(Scanner scanner = new Scanner(wordlist)) {
             while (scanner.hasNextLine()) blockedWords.add(scanner.nextLine());
         } catch (FileNotFoundException e) {
-            // CANNOT_READ_WORDLIST("cannot-read-wordlist", "%prefix%<red>Could not read the wordlist from %file%.")
+            Message.sendToConsole(Message.CANNOT_READ_WORDLIST, placeholders);
             return;
         }
 
-        // WORDLIST_RELOADED("wordlist-reloaded", "%prefix%The wordlist has been reloaded.")
+        Message.sendToConsole(Message.WORDLIST_SAVED, placeholders);
     }
 
     /** 
@@ -103,17 +106,21 @@ public class WordlistManager {
      * It doesn't overwrite the local wordlist unless specified in the config.
      */
     public static void redownload() {
+        Map<String,String> placeholders = Message.getCommonPlaceholders();
+        placeholders.put("%file%", wordlist.getName());
+        placeholders.put("%url%", MainConfig.wordlistUrl());
+
         try {
             // Downloading the wordlist
             if (!wordlist.exists() || MainConfig.overrideWordlistFile()) {
-                // TODO: WORDLIST_OVERRIDDEN("wordlist-overridden", "%prefix%The wordlist will be overridden if it exists.")
+                Message.sendToConsole(Message.WORDLIST_OVERRIDDEN, placeholders);
                 Files.copy(new URI(MainConfig.wordlistUrl()).toURL().openStream(), wordlist.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-            // TODO: WORDLIST_SAVED("wordlist-saved", "%prefix%The wordlist has been saved.")
+            Message.sendToConsole(Message.WORDLIST_SAVED, placeholders);
         } catch (URISyntaxException | MalformedURLException e) {
-            // TODO: WORDLIST_MALFORMED_URL("wordlist-malformed-url", "The provided URL \"%url%\" is not a valid link.")
+            Message.sendToConsole(Message.WORDLIST_MALFORMED_URL, placeholders);
         } catch (IOException e) {
-            // TODO: WORDLIST_DOWNLOAD_ERROR("wordlist-download-error", "Could not download the wordlist from \"%url%\"")
+            Message.sendToConsole(Message.WORDLIST_DOWNLOAD_ERROR, placeholders);
         }
     }
 }

@@ -24,8 +24,10 @@ public final class ChatFilter extends JavaPlugin {
                     .uri(new URI("https://github.com/Turbojax07/ChatFilter/releases/latest")).GET()
                     .build();
         } catch (URISyntaxException e) {
-            // Somehow the string constant that NEVER CHANGES could throw an error after testing...
-            // TODO: VERSION_URI_ERROR("version-uri-error", "Could not parse the github URL.  Contact Turbo.")
+            // For some reason I need to check that the string constant that NEVER CHANGES could throw an error after testing...
+            Map<String,String> placeholders = Message.getCommonPlaceholders();
+            placeholders.put("%url%", "https://github.com/Turbojax07/ChatFilter/releases/latest");
+            Message.sendToConsole(Message.VERSION_URI_ERROR, placeholders);
             throw new RuntimeException(e);
         }
     }

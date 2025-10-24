@@ -26,16 +26,18 @@ public class MainConfig {
             return false;
         }
 
+        Map<String,String> placeholders = Message.getCommonPlaceholders();
+        placeholders.put("%file%", file.getName());
         // Loading the config
         try {
             config.load(file);
 
-            Message.sendToConsole(Message.CONFIG_LOADED, Map.of("%file%", file.getName()));
+            Message.sendToConsole(Message.CONFIG_LOADED, placeholders);
             return true;
         } catch (InvalidConfigurationException err) {
-            Message.sendToConsole(Message.CONFIG_INVALID_YAML, Map.of("%file%", file.getName()));
+            Message.sendToConsole(Message.CONFIG_INVALID_YAML, placeholders);
         } catch (IOException err) {
-            Message.sendToConsole(Message.CONFIG_NOT_FOUND, Map.of("%file%", file.getName()));
+            Message.sendToConsole(Message.CONFIG_NOT_FOUND, placeholders);
         }
 
         // Handling version mismatch
@@ -47,9 +49,9 @@ public class MainConfig {
                 // Loading configs for this version
                 ChatFilter.getInstance().saveResource(file.getName(), true);
 
-                Message.sendToConsole(Message.CONFIG_BACKUP_SUCCESS, Map.of("%file%", file.getName()));
+                Message.sendToConsole(Message.CONFIG_BACKUP_SUCCESS, placeholders);
             } catch (IOException e) {
-                Message.sendToConsole(Message.CONFIG_BACKUP_FAIL, Map.of("%file%", file.getName()));
+                Message.sendToConsole(Message.CONFIG_BACKUP_FAIL, placeholders);
                 return false;
             }
         }
@@ -92,13 +94,16 @@ public class MainConfig {
         // Creating the file.
         ChatFilter.getInstance().saveResource(file.getName(), true);
 
+        Map<String,String> placeholders = Message.getCommonPlaceholders();
+        placeholders.put("%file%", file.getName());
+
         // Checking if the file exists now.
         if (file.exists()) {
-            Message.sendToConsole(Message.CONFIG_CREATED, Map.of("%file%", file.getName()));
+            Message.sendToConsole(Message.CONFIG_CREATED, placeholders);
             return true;
         }
         
-        Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
+        Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, placeholders);
         return false;
     }
 
