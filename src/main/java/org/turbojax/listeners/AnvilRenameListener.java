@@ -1,13 +1,16 @@
 package org.turbojax.listeners;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.view.AnvilView;
+import org.turbojax.LogManager;
 import org.turbojax.WordlistManager;
 import org.turbojax.config.MainConfig;
 import org.turbojax.config.Message;
@@ -37,7 +40,7 @@ public class AnvilRenameListener implements Listener {
             
             // Getting the player and various placeholders
             Map<String,String> placeholders = new HashMap<>(Map.of("%player%", player.getName(), "%name%", name, "%word%", bannedWords.values().iterator().next()));
-            
+
             // Cancelling the event if the config says so
             if (MainConfig.handleAnvilRename().equalsIgnoreCase("cancel")) {
                 event.setCancelled(true);
@@ -51,16 +54,24 @@ public class AnvilRenameListener implements Listener {
             }
 
             // Censoring the name if the config says so
-            for (Entry<Integer,String> bannedWord : bannedWords.entrySet()) {
-                // Renaming the output item
-                ItemStack output = anvilView.getItem(2);
-                output.editMeta(meta -> {
-                   meta.displayName(Message.plaintext.deserialize(name.substring(0, bannedWord.getKey()) + "*".repeat(bannedWord.getValue().length()) + name.substring(bannedWord.getKey() + bannedWord.getValue().length()))); 
-                });
+            if (MainConfig.handleAnvilRename().equalsIgnoreCase("censor")) {
+                for (Entry<Integer,String> bannedWord : bannedWords.entrySet()) {
+                    String newName = name.substring(0, bannedWord.getKey()) + "*".repeat(bannedWord.getValue().length()) + name.substring(bannedWord.getKey() + bannedWord.getValue().length());
 
-                // FILTER_ANVIL_CENSOR_LOG("filter-anvil-filter-log", "%prefix%You cannot have the word %word% in the name of your item.")
-                // FILTER_ANVIL_CENSOR_MESSAGE("filter-anvil-filter-message", "%prefix%You cannot have the word %word% in the name of your item.")
-                // FILTER_ANVIL_CENSOR_WARNING("filter-anvil-filter-warning")
+                    // Renaming the output item
+                    ItemStack output = anvilView.getItem(2);
+                    output.editMeta(meta -> {
+                        meta.displayName(Message.plaintext.deserialize(newName)); 
+                    });
+
+                    // Logging
+                    placeholders.put("%new_name%", newName);
+                    LogManager.log(Message.applyPlaceholders(Message.getMessage(Message.FILTER_ANVIL_CENSOR_LOG), placeholders));
+
+                    placeholders.putAll(Message.getCommonPlaceholders());
+                    Message.send(player, Message.FILTER_ANVIL_CENSOR_MESSAGE, placeholders);
+                    Message.send(player, Message.FILTER_ANVIL_CENSOR_WARNING, placeholders);
+                }
             }
         }
     }
