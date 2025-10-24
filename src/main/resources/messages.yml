@@ -17,51 +17,111 @@
 
 # This is the config that defines the %prefix% placeholder.
 # Supported Placeholders: %main_color%
-prefix: "%main_color%&lCHATFILTER&r"
+# prefix: "%main_color%&lCHATFILTER&r"
 
-# This is the config that defines the %main_color% placeholder.
-# Supported Placeholders: none
-main-color: "&e"
+# # This is the config that defines the %main_color% placeholder.
+# # Supported Placeholders: none
+# main-color: "&e"
 
 
-# This is the message that will be sent to players or saved to log files.
-# Supported Placeholders: %prefix%, %main_color%, %player%, %blocked_message%, %detected_words%, %typed_in%, %action_taken%
-detection-message:
-  - ""
-  - "%main_color%&lChatFilter Detection"
-  - ""
-  - "&8▪ &fFound some blacklisted/banned words in"
-  - "&8▪ &fa message sent by %main_color%%player%&f."
-  - ""
-  - "&8▪ &fFull message: %main_color%%blocked_message%"
-  - "&8▪ &fBlacklisted words: %main_color%%detected_words%"
-  - "&8▪ &fTyped in: %main_color%%where_blocked%"
-  - ""
+# # This is the message that will be sent to players or saved to log files.
+# # Supported Placeholders: %prefix%, %main_color%, %player%, %blocked_message%, %detected_words%, %typed_in%, %action_taken%
+# detection-message:
+#   - ""
+#   - "%main_color%&lChatFilter Detection"
+#   - ""
+#   - "&8▪ &fFound some blacklisted/banned words in"
+#   - "&8▪ &fa message sent by %main_color%%player%&f."
+#   - ""
+#   - "&8▪ &fFull message: %main_color%%blocked_message%"
+#   - "&8▪ &fBlacklisted words: %main_color%%detected_words%"
+#   - "&8▪ &fTyped in: %main_color%%where_blocked%"
+#   - ""
 
-# What to write in the log file
-filter-anvil-ignore-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Name ignored."
-filter-anvil-censor-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Name censored to \"%censored_message%\"."
-filter-anvil-cancel-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Renaming cancelled."
-filter-chat-ignore-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message ignored."
-filter-chat-censor-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message censored to \"%censored_message%\"."
-filter-chat-cancel-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message cancelled."
+# # What to write in the log file
+# filter-anvil-ignore-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Name ignored."
+# filter-anvil-censor-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Name censored to \"%censored_message%\"."
+# filter-anvil-cancel-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" renamed an item in an anvil to \"%blocked_message%\".  Blacklisted words: \"%detected_words%\".  Renaming cancelled."
+# filter-chat-ignore-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message ignored."
+# filter-chat-censor-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message censored to \"%censored_message%\"."
+# filter-chat-cancel-log: "[%YYYY%-%MM%-%DD%: %h%:%m%:%s%] Player \"%player%\" sent \"%blocked_message%\" in chat.  Blacklisted words: \"%detected_words%\".  Chat message cancelled."
 
-# What to send to the player
-filter-anvil-ignore-message: ""
-filter-anvil-cancel-message: ""
-filter-anvil-censor-message: ""
-filter-anvil-ignore-message: ""
-filter-chat-censor-message: "%prefix%<red>Part of your message was censored due to containing blacklisted words."
-filter-chat-cancel-message: "%prefix%<red>Your message was not sent due to containing blacklisted words."
+# # What to send to the player
+# filter-anvil-ignore-message: ""
+# filter-anvil-cancel-message: ""
+# filter-anvil-censor-message: ""
+# filter-anvil-ignore-message: ""
+# filter-chat-censor-message: "%prefix%<red>Part of your message was censored due to containing blacklisted words."
+# filter-chat-cancel-message: "%prefix%<red>Your message was not sent due to containing blacklisted words."
 
-# What to send to players with the "chatfilter.notify" permission
-filter-anvil-ignore-warning: ""
-filter-anvil-censor-warning: ""
-filter-anvil-cancel-warning: ""
-filter-chat-ignore-warning: ""
-filter-chat-censor-warning: ""
-filter-chat-cancel-warning: ""
+# # What to send to players with the "chatfilter.notify" permission
+# filter-anvil-ignore-warning: ""
+# filter-anvil-censor-warning: ""
+# filter-anvil-cancel-warning: ""
+# filter-chat-ignore-warning: ""
+# filter-chat-censor-warning: ""
+# filter-chat-cancel-warning: ""
+# config-backup-success: "<gray>[<#FA8128>ChatFilter<gray>] <white>Backed up the old %file% and loaded the new one."
+# config-backup-fail: "<gray>[<#FA8128>ChatFilter<gray>] <white><red>Could not back up the old %file%."
+# config-loaded: "<gray>[<#FA8128>ChatFilter<gray>] <white>Successfully loaded %file%"
+# config-invalid-yaml: "<gray>[<#FA8128>ChatFilter<gray>] <white><red>%file% contains an invalid YAML configuration.  Verify the contents of the file."
+# config-not-found: "<gray>[<#FA8128>ChatFilter<gray>] <white><red>Could not find %file%.  Make sure it exists."
+# config-cannot-create: "<gray>[<#FA8128>ChatFilter<gray>] <white>Could not create %file%."
+# config-created: "<gray>[<#FA8128>ChatFilter<gray>] <white>Successfully created %file%."
+# key-not-found: "<gray>[<#FA8128>ChatFilter<gray>] <white>Could not find \"%key%\" in \"%file%\"."
+# no-permission: "%prefix%<red>You don't have permission to use this command!"
+# detection-message: "\n%main_color%&lChatFilter Detection\n\n&8▪ &fFound some blacklisted/banned words in\n&8▪ &fa message sent by %main_color%%player%&f.\n\n&8▪ &fFull message: %main_color%%blocked_message%\n&8▪ &fBlacklisted words: %main_color%%detected_words%\n&8▪ &fTyped in: %main_color%%where_blocked%\n"
 
-# Console Errors
-# These do not support formatting
-version-uri-error: "Could not parse the github URL.  Contact Turbo."
+# # Console Errors
+# # These do not support formatting
+# version-uri-error: "Could not parse the github URL.  Contact Turbo."
+
+prefix: "<gray>[%main_color%ChatFilter<gray>] <white>"
+main-color: "<#FA8128>"
+config-backup-success: "%prefix%Backed up the old %file% and loaded the new one."
+config-backup-fail: "%prefix%<red>Could not back up the old %file%."
+config-loaded: "%prefix%Successfully loaded %file%"
+config-invalid-yaml: "%prefix%<red>%file% contains an invalid YAML configuration.  Verify the contents of the file."
+config-not-found: "%prefix%<red>Could not find %file%.  Make sure it exists."
+config-cannot-create: "%prefix%Could not create %file%."
+config-created: "%prefix%Successfully created %file%."
+key-not-found: "%prefix%Could not find \"%key%\" in \"%file%\"."
+version-uri-error: "%prefix%Could not parse the github URL.  Contact Turbo."
+cannot-read-wordlist: "%prefix%<red>Could not read the wordlist from %file%."
+wordlist-reloaded: "%prefix%The wordlist has been reloaded."
+wordlist-overridden: "%prefix%The wordlist will be overridden if it exists."
+wordlist-cannot-save: "%prefix%Could not save the wordlist."
+wordlist-saved: "%prefix%The wordlist has been saved."
+wordlist-malformed-url: "%prefix%The provided URL \"%url%\" is not a valid link."
+wordlist-download-error: "%prefix%Could not download the wordlist from \"%url%\""
+no-permission: "%prefix%<red>You don't have permission to use this command!"
+detection-message: "\n%main_color%&lChatFilter Detection\n\n&8▪ &fFound some blacklisted/banned words in\n&8▪ &fa message sent by %main_color%%player%&f.\n\n&8▪ &fFull message: %main_color%%blocked_message%\n&8▪ &fBlacklisted words: %main_color%%detected_words%\n&8▪ &fTyped in: %main_color%%where_blocked%\n"
+command-add-word-success: "%prefix%Added \"%word%\" to the blocked word list."
+command-add-word-fail: "%prefix%\"%word%\" is already a blocked word."
+command-remove-word-success: "%prefix%Removed \"%word%\" from the blocked word list."
+command-remove-word-fail: "%prefix%\"%word%\" is not a blocked word."
+command-add-correct-usage: "%prefix%<red>Usage: /%label% add <word>"
+command-remove-correct-usage: "%prefix%<red>Usage: /%label% remove <word>"
+command-list-correct-usage: "%prefix%<red>Usage: /%label% list [page]"
+command-list-page-too-big: "%prefix%There are only %pages% pages.  %page% is too big!"
+command-list-header: "%prefix%Blocked words:"
+command-list-footer: "Page %page%/%pages%"
+command-reload-correct-usage: "%prefix%<red>Usage: /%label% reload"
+command-reload-success: "%prefix%Reloaded configs and wordlist."
+command-help-correct-usage: "%prefix%<red>Usage: /%label% help"
+command-version-correct-usage: "%prefix%<red>Usage: /%label% version"
+command-help-message: "<gray><st>          </st><%main_color% ChatFilter Commands <gray>><st>          </st>\n\n%main_color%/%label% add <<word>> <white>- Adds a word to the blacklist.\n%main_color%/%label% list <white>- Lists the words on the blacklist.\n%main_color%/%label% remove <word> <white>- Removes a word from the blacklist.\n%main_color%/%label% reload <white>- Reload the ChatFilter plugin.\n%main_color%/%label% help <white>- Displays this help menu with command summaries.\n%main_color%/%label% version <white>- Shows the current plugin version and checks for a update.\n\n"
+has-update: "ChatFilter has an update!  You're on %plugin_version%.  Please update to %latest_version%."
+version-message: "ChatFilter is running version %plugin_version%."
+filter-anvil-censor-log: "%player% renamed an item to \"%name%\".  The name contains the blacklisted word \"%word%\".  The item was renamed to \"%new-name%\"."
+filter-anvil-censor-message: "%prefix%%player% attempted to name an item to \"%name%\", containing the blacklisted word \"%word%\".  The item was renamed to \"%new-name%\""
+filter-anvil-censor-warning: "%prefix%You cannot name an item \"%name%\" because the word \"%word%\" is blacklisted.  Your item was renamed to \"%new-name%\"."
+filter-anvil-cancel-log: "%player% renamed an item to \"%name%\".  The name contains the blacklisted word \"%word%\".  This event was cancelled."
+filter-anvil-cancel-message: "%prefix%%player% attempted to name an item to \"%name%\", containing the blacklisted word \"%word%\""
+filter-anvil-cancel-warning: "%prefix%You cannot rename an item to \"%name%\" because the word \"%word%\" is blacklisted."
+filter-chat-censor-log: "%player% sent \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  The message was censored to \"%new_message%\"."
+filter-chat-censor-message: "%prefix%%player% sent \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  It was censored to \"%new_message%\"."
+filter-chat-censor-warning: "%prefix%<red>Your message contained a blacklisted word, \"%word%\".  Your message has been censored."
+filter-chat-cancel-log: "%player% send \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  The chat message was cancelled."
+filter-chat-cancel-message: "%prefix%%player% sent \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  The chat message was cancelled"
+filter-chat-cancel-warning: "%prefix%<red>Your message contained a blacklisted word, \"%word%\", so it was not sent."
