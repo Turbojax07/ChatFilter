@@ -21,17 +21,107 @@ public enum Message {
     PREFIX("prefix", "<gray>[%main_color%ChatFilter<gray>] <white>"),
     MAIN_COLOR("main-color", "<#FA8128>"),
     // Console logs
-    CONFIG_BACKUP_SUCCESS("config-backup-success", "<gray>[<#FA8128>ChatFilter<gray>] <white>Backed up the old %file% and loaded the new one."),
-    CONFIG_BACKUP_FAIL("config-backup-fail", "<gray>[<#FA8128>ChatFilter<gray>] <white><red>Could not back up the old %file%."),
-    CONFIG_LOADED("config-loaded", "<gray>[<#FA8128>ChatFilter<gray>] <white>Successfully loaded %file%"),
-    CONFIG_INVALID_YAML("config-invalid-yaml", "<gray>[<#FA8128>ChatFilter<gray>] <white><red>%file% contains an invalid YAML configuration.  Verify the contents of the file."),
-    CONFIG_NOT_FOUND("config-not-found", "<gray>[<#FA8128>ChatFilter<gray>] <white><red>Could not find %file%.  Make sure it exists."),
-    CONFIG_CANNOT_CREATE("config-cannot-create", "<gray>[<#FA8128>ChatFilter<gray>] <white>Could not create %file%."),
-    CONFIG_CREATED("config-created", "<gray>[<#FA8128>ChatFilter<gray>] <white>Successfully created %file%."),
-    KEY_NOT_FOUND("key-not-found", "<gray>[<#FA8128>ChatFilter<gray>] <white>Could not find \"%key%\" in \"%file%\"."),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CONFIG_BACKUP_SUCCESS("config-backup-success", "%prefix%Backed up the old %file% and loaded the new one."),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CONFIG_BACKUP_FAIL("config-backup-fail", "%prefix%<red>Could not back up the old %file%."),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CONFIG_LOADED("config-loaded", "%prefix%Successfully loaded %file%"),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CONFIG_INVALID_YAML("config-invalid-yaml", "%prefix%<red>%file% contains an invalid YAML configuration.  Verify the contents of the file."),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CONFIG_NOT_FOUND("config-not-found", "%prefix%<red>Could not find %file%.  Make sure it exists."),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CONFIG_CANNOT_CREATE("config-cannot-create", "%prefix%Could not create %file%."),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CONFIG_CREATED("config-created", "%prefix%Successfully created %file%."),
+    // Supported placeholders: %prefix%, %main_color%, %file%, %key%
+    KEY_NOT_FOUND("key-not-found", "%prefix%Could not find \"%key%\" in \"%file%\"."),
+    // Supported placeholders: %prefix%, %main_color%, %url%
+    VERSION_URI_ERROR("version-uri-error", "%prefix%Could not parse the github URL.  Contact Turbo."),
+
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    CANNOT_READ_WORDLIST("cannot-read-wordlist", "%prefix%<red>Could not read the wordlist from %file%."),
+    // Supported placeholders: %prefix%, %main_color%, %file%
+    WORDLIST_RELOADED("wordlist-reloaded", "%prefix%The wordlist has been reloaded."),
+    // Supported placeholders: %prefix%, %main_color%, %file%, %url%
+    WORDLIST_OVERRIDDEN("wordlist-overridden", "%prefix%The wordlist will be overridden if it exists."),
+    // Supported placeholders: %prefix%, %main_color%, %file%, %url%
+    WORDLIST_CANNOT_SAVE("wordlist-cannot-save", "%prefix%Could not save the wordlist."),
+    // Supported placeholders: %prefix%, %main_color%, %file%, %url%
+    WORDLIST_SAVED("wordlist-saved", "%prefix%The wordlist has been saved."),
+    // Supported placeholders: %prefix%, %main_color%, %file%, %url%
+    WORDLIST_MALFORMED_URL("wordlist-malformed-url", "%prefix%The provided URL \"%url%\" is not a valid link."),
+    // Supported placeholders: %prefix%, %main_color%, %file%, %url%
+    WORDLIST_DOWNLOAD_ERROR("wordlist-download-error", "%prefix%Could not download the wordlist from \"%url%\""),
+
     // Chat logs
+    // Supported placeholders: %prefix%, %main_color%, %command%, %label%
     NO_PERMISSION("no-permission", "%prefix%<red>You don't have permission to use this command!"),
-    DETECTION_MESSAGE("detection-message", "\n%main_color%&lChatFilter Detection\n\n&8▪ &fFound some blacklisted/banned words in\n&8▪ &fa message sent by %main_color%%player%&f.\n\n&8▪ &fFull message: %main_color%%blocked_message%\n&8▪ &fBlacklisted words: %main_color%%detected_words%\n&8▪ &fTyped in: %main_color%%where_blocked%\n")
+    // Supported placeholders: %prefix%, %main_color%, %player%, %blocked_message%, %detected_words%, %where_blocked%
+    DETECTION_MESSAGE("detection-message", "\n%main_color%&lChatFilter Detection\n\n&8▪ &fFound some blacklisted/banned words in\n&8▪ &fa message sent by %main_color%%player%&f.\n\n&8▪ &fFull message: %main_color%%blocked_message%\n&8▪ &fBlacklisted words: %main_color%%detected_words%\n&8▪ &fTyped in: %main_color%%where_blocked%\n"),
+    // Supported placeholders: %prefix%, %main_color%, %word%
+    COMMAND_ADD_WORD_SUCCESS("command-add-word-success", "%prefix%Added \"%word%\" to the blocked word list."),
+    // Supported placeholders: %prefix%, %main_color%, %word%
+    COMMAND_ADD_WORD_FAIL("command-add-word-fail", "%prefix%\"%word%\" is already a blocked word."),
+    // Supported placeholders: %prefix%, %main_color%, %word%
+    COMMAND_REMOVE_WORD_SUCCESS("command-remove-word-success", "%prefix%Removed \"%word%\" from the blocked word list."),
+    // Supported placeholders: %prefix%, %main_color%, %word%
+    COMMAND_REMOVE_WORD_FAIL("command-remove-word-fail", "%prefix%\"%word%\" is not a blocked word."),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_ADD_CORRECT_USAGE("command-add-correct-usage", "%prefix%<red>Usage: /%label% add <word>"),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_REMOVE_CORRECT_USAGE("command-remove-correct-usage", "%prefix%<red>Usage: /%label% remove <word>"),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_LIST_CORRECT_USAGE("command-list-correct-usage", "%prefix%<red>Usage: /%label% list [page]"),
+    // Supported placeholders: %prefix%, %main_color%, %label%, %page%, %pages%
+    COMMAND_LIST_PAGE_TOO_BIG("command-list-page-too-big", "%prefix%There are only %pages% pages.  %page% is too big!"),
+    // Supported placeholders: %prefix%, %main_color%, %label%, %page%, %pages%
+    COMMAND_LIST_HEADER("command-list-header", "%prefix%Blocked words:"),
+    // Supported placeholders: %prefix%, %main_color%, %label%, %page%, %pages%
+    COMMAND_LIST_FOOTER("command-list-footer", "Page %page%/%pages%"),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_RELOAD_CORRECT_USAGE("command-reload-correct-usage", "%prefix%<red>Usage: /%label% reload"),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_RELOAD_SUCCESS("command-reload-success", "%prefix%Reloaded configs and wordlist."),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_SAVE_SUCCESS("command-reload-success", "%prefix%Saved the wordlist."),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_HELP_CORRECT_USAGE("command-help-correct-usage", "%prefix%<red>Usage: /%label% help"),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_VERSION_CORRECT_USAGE("command-version-correct-usage", "%prefix%<red>Usage: /%label% version"),
+    // Supported placeholders: %prefix%, %main_color%, %label%
+    COMMAND_HELP_MESSAGE("command-help-message", "<gray><st>          </st><%main_color% ChatFilter Commands <gray>><st>          </st>\n\n%main_color%/%label% add <<word>> <white>- Adds a word to the blacklist.\n%main_color%/%label% list <white>- Lists the words on the blacklist.\n%main_color%/%label% remove <word> <white>- Removes a word from the blacklist.\n%main_color%/%label% reload <white>- Reload the ChatFilter plugin.\n%main_color%/%label% help <white>- Displays this help menu with command summaries.\n%main_color%/%label% version <white>- Shows the current plugin version and checks for a update.\n\n"),
+    // Supported placeholders: %prefix%, %main_color%, %label%, %plugin_version%, %latest_version%
+    HAS_UPDATE("has-update", "ChatFilter has an update!  You're on %plugin_version%.  Please update to %latest_version%."),
+    // Supported placeholders: %prefix%, %main_color%, %label%, %plugin_version%, %latest_version%
+    VERSION_MESSAGE("version-message", "ChatFilter is running version %plugin_version%."),
+    // Supported placeholders: %player%, %name%, %new_name%, %word%
+    FILTER_ANVIL_CENSOR_LOG("filter-anvil-censor-log", "%player% renamed an item to \"%name%\".  The name contains the blacklisted word \"%word%\".  The item was renamed to \"%new-name%\"."),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %name%, %new_name%, %word%
+    FILTER_ANVIL_CENSOR_MESSAGE("filter-anvil-censor-message", "%prefix%%player% attempted to name an item to \"%name%\", containing the blacklisted word \"%word%\".  The item was renamed to \"%new-name%\""),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %name%, %new_name%, %word%
+    FILTER_ANVIL_CENSOR_WARNING("filter-anvil-censor-warning", "%prefix%You cannot name an item \"%name%\" because the word \"%word%\" is blacklisted.  Your item was renamed to \"%new-name%\"."),
+    // Supported placeholders: %player%, %name%, %word%
+    FILTER_ANVIL_CANCEL_LOG("filter-anvil-cancel-log", "%player% renamed an item to \"%name%\".  The name contains the blacklisted word \"%word%\".  This event was cancelled."),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %name%, %word%
+    FILTER_ANVIL_CANCEL_MESSAGE("filter-anvil-cancel-message", "%prefix%%player% attempted to name an item to \"%name%\", containing the blacklisted word \"%word%\""),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %name%, %word%
+    FILTER_ANVIL_CANCEL_WARNING("filter-anvil-cancel-warning", "%prefix%You cannot rename an item to \"%name%\" because the word \"%word%\" is blacklisted."),
+
+    // Supported placeholders: %player%, %message%, %new_message%, %word%
+    FILTER_CHAT_CENSOR_LOG("filter-chat-censor-log", "%player% sent \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  The message was censored to \"%new_message%\"."),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %message%, %new_message%, %word%
+    FILTER_CHAT_CENSOR_MESSAGE("filter-chat-censor-message", "%prefix%%player% sent \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  It was censored to \"%new_message%\"."),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %message%, %new_message%, %word%
+    FILTER_CHAT_CENSOR_WARNING("filter-chat-censor-warning", "%prefix%<red>Your message contained a blacklisted word, \"%word%\".  Your message has been censored."),
+    // Supported placeholders: %player%, %message%, %word%
+    FILTER_CHAT_CANCEL_LOG("filter-chat-cancel-log", "%player% send \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  The chat message was cancelled."),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %message%, %word%
+    FILTER_CHAT_CANCEL_MESSAGE("filter-chat-cancel-message", "%prefix%%player% sent \"%message%\" in chat.  The message contains the blacklisted word \"%word%\".  The chat message was cancelled"),
+    // Supported placeholders: %prefix%, %main_color%, %player%, %message%, %word%
+    FILTER_CHAT_CANCEL_WARNING("filter-chat-cancel-warning", "%prefix%<red>Your message contained a blacklisted word, \"%word%\", so it was not sent."),
+
     ;
 
     public static final File file = new File("plugins/ChatFilter/messages.yml");
