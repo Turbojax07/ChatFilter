@@ -240,12 +240,12 @@ public enum Message {
      *
      * @param key The message to retrieve.
      *
-     * @return A message from the config
+     * @return A message from the config.
      */
     public static String getMessage(Message key) {
         if (!config.contains(key.configKey)) {
-            if (key != KEY_NOT_FOUND) {
-                sendToConsole(getMessage(KEY_NOT_FOUND), Map.of("%key%", key.configKey, "%file%", file.getName()));
+            if (key != KEY_NOT_FOUND && key != PREFIX && key != MAIN_COLOR) {
+                sendToConsole(getMessage(KEY_NOT_FOUND), Map.of("%prefix%", getMessage(PREFIX), "%main_color%", getMessage(MAIN_COLOR), "%key%", key.configKey, "%file%", file.getName()));
             }
             
             return key.defaultValue;
@@ -340,10 +340,10 @@ public enum Message {
         while (!allPassed) {
             allPassed = true;
 
-        for (Entry<String,String> placeholder : placeholders.entrySet()) {
+            for (Entry<String,String> placeholder : placeholders.entrySet()) {
                 if (message.contains(placeholder.getKey())) allPassed = false;
 
-            message = message.replace(placeholder.getKey(), placeholder.getValue());
+                message = message.replace(placeholder.getKey(), placeholder.getValue());
             }
         }
 
