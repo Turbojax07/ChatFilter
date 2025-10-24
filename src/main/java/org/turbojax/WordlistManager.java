@@ -2,6 +2,7 @@ package org.turbojax;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -11,14 +12,16 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 import org.turbojax.config.MainConfig;
+import org.turbojax.config.Message;
 
 public class WordlistManager {
-    private static File wordlist = new File(MainConfig.wordlistFile());
+    private static File wordlist;
     private static final List<String> blockedWords = new ArrayList<>();
 
     /**
@@ -26,8 +29,11 @@ public class WordlistManager {
      * Words are case-insensitive.
      * 
      * @param word The word to blacklist.
+     * 
+     * @return Returns true if the word was added.  Returns false if it is already in the list.
      */
     public static boolean addWord(String word) {
+        if (blockedWords.contains(word)) return false;
         return blockedWords.add(word.toLowerCase());
     }
 
@@ -36,6 +42,8 @@ public class WordlistManager {
      * Words are case-insensitive.
      * 
      * @param word The word to remove from the blacklist
+     * 
+     * * @return Returns true if the word was removed.  Returns false if it is not in the list.
      */
     public static boolean removeWord(String word) {
         return blockedWords.remove(word.toLowerCase());
@@ -84,6 +92,9 @@ public class WordlistManager {
             redownload();
         }
 
+        // Redefining the wordlist
+        wordlist = new File("plugins/ChatFilter/" + MainConfig.wordlistFile());
+
         // Removing the existing words
         blockedWords.clear();
 
@@ -95,6 +106,31 @@ public class WordlistManager {
             while (scanner.hasNextLine()) blockedWords.add(scanner.nextLine());
         } catch (FileNotFoundException e) {
             Message.sendToConsole(Message.CANNOT_READ_WORDLIST, placeholders);
+            return;
+        }
+
+        Message.sendToConsole(Message.WORDLIST_RELOADED, placeholders);
+    }
+
+    /**
+     * Saves the active wordlist to the file.
+     */
+    public static void save() {
+        Map<String,String> placeholders = Message.getCommonPlaceholders();
+        placeholders.put("%file%", wordlist.getName());
+
+        // Loading the contents of the wordlist file into the blockedWords array.
+        try(FileWriter writer = new FileWriter(wordlist)) {
+            // Deleting the original file
+            Files.delete(wordlist.toPath());
+
+            // Loading the list into the new file.
+            for (String word : blockedWords) {
+                writer.append(word + "\n");
+                writer.flush();
+            }
+        } catch (IOException e) {
+            Message.sendToConsole(Message.WORDLIST_CANNOT_SAVE, placeholders);
             return;
         }
 

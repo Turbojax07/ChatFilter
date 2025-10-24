@@ -1,11 +1,13 @@
 package org.turbojax;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.turbojax.config.MainConfig;
@@ -49,7 +51,10 @@ public final class ChatFilter extends JavaPlugin {
         MainConfig.load();
         Message.load();
 
-        // Defining the wordlist file
+        // Loading the log file
+        LogManager.initialize();
+
+        // Loading the wordlist
         WordlistManager.reload();
 
         // Registering the command executors
@@ -60,6 +65,8 @@ public final class ChatFilter extends JavaPlugin {
         // Registering event listeners
         getServer().getPluginManager().registerEvents(new AnvilRenameListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
+
+        LogManager.log("ChatFilter enabled!");
     }
 
     @Override
@@ -69,6 +76,16 @@ public final class ChatFilter extends JavaPlugin {
 
         // Unregistering the command
         getCommand("chatfilter").unregister(getServer().getCommandMap());
+
+        // Saving the wordlist
+        WordlistManager.save();
+
+        LogManager.log("ChatFilter disabled!");
+
+        // Compressing the log file
+        if (LogManager.getLogFile() == null) return;
+        LogManager.gzipCompressFile(LogManager.getLogFile(), new File(LogManager.getLogFile().getPath() + ".gz"));
+
     }
 
     public static boolean hasUpdate() {
@@ -89,6 +106,8 @@ public final class ChatFilter extends JavaPlugin {
         } catch (IOException | InterruptedException e) {
             // Log smth here
             throw new RuntimeException(e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return "1.0.0";
         }
     }
 }
