@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -22,16 +21,34 @@ public class WordlistManager {
     private static File wordlist = new File(MainConfig.wordlistFile());
     private static final List<String> blockedWords = new ArrayList<>();
 
-    public static void addWord(String word) {
-        blockedWords.add(word);
-        // WORDLIST_ADDED_WORD("wordlist-added-word", "%prefix%Added \"%word%\" to the blocked word list.")
+    /**
+     * Adds a word to the blacklist.
+     * Words are case-insensitive.
+     * 
+     * @param word The word to blacklist.
+     */
+    public static boolean addWord(String word) {
+        return blockedWords.add(word.toLowerCase());
     }
 
-    public static void removeWord(String word) {
-        blockedWords.remove(word);
-        // WORDLIST_REMOVED_WORD("wordlist-removed-word", "%prefix%Removed \"%word%\" from the blocked word list.")
+    /**
+     * Removes a word from the blacklist.
+     * Words are case-insensitive.
+     * 
+     * @param word The word to remove from the blacklist
+     */
+    public static boolean removeWord(String word) {
+        return blockedWords.remove(word.toLowerCase());
     }
 
+    /**
+     * Checks a string for any blocked words.
+     * It returns a map of each word and its index in the string.
+     * 
+     * @param text The string to check for blocked words.
+     * 
+     * @return A map of every word and its index in the string.
+     */
     @NotNull
     public static HashMap<Integer,String> getBannedWords(String text) {
         HashMap<Integer,String> foundWords = new HashMap<>();
@@ -48,10 +65,19 @@ public class WordlistManager {
         return foundWords;
     }
 
+    /**
+     * Gets the list of blocked words.
+     * 
+     * @return The list of blocked words.
+     */
     public static List<String> getBlockedWords() {
         return blockedWords;
     }
 
+    /**
+     * Reloads the wordlist file.
+     * It will also redownload the remote wordlist if necessary.
+     */
     public static void reload() {
         // Downloading the wordlist if it does not exist and the wordlist is remote.
         if (!wordlist.exists() && MainConfig.useRemoteWordlist()) {
@@ -72,18 +98,18 @@ public class WordlistManager {
         // WORDLIST_RELOADED("wordlist-reloaded", "%prefix%The wordlist has been reloaded.")
     }
 
+    /** 
+     * Redownloads the wordlist file.
+     * It doesn't overwrite the local wordlist unless specified in the config.
+     */
     public static void redownload() {
         try {
             // Downloading the wordlist
-            if (MainConfig.overrideWordlistFile()) {
+            if (!wordlist.exists() || MainConfig.overrideWordlistFile()) {
                 // TODO: WORDLIST_OVERRIDDEN("wordlist-overridden", "%prefix%The wordlist will be overridden if it exists.")
                 Files.copy(new URI(MainConfig.wordlistUrl()).toURL().openStream(), wordlist.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } else {
-                Files.copy(new URI(MainConfig.wordlistUrl()).toURL().openStream(), wordlist.toPath());
             }
             // TODO: WORDLIST_SAVED("wordlist-saved", "%prefix%The wordlist has been saved.")
-        } catch(FileAlreadyExistsException e) {
-            // TODO: WORDLIST_OVERRIDE_STOPPED("wordlist-override-stopped", "%prefix%Cannot override the wordlist with the remote copy.")
         } catch (URISyntaxException | MalformedURLException e) {
             // TODO: WORDLIST_MALFORMED_URL("wordlist-malformed-url", "The provided URL \"%url%\" is not a valid link.")
         } catch (IOException e) {
