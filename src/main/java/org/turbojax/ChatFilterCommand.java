@@ -84,10 +84,21 @@ public class ChatFilterCommand implements TabExecutor {
 
     @Nullable
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 1) return Stream.of("help", "reload", "add", "list", "remove").filter(s -> s.startsWith(args[0])).toList();
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length == 1) {
+            List<String> suggestions = new ArrayList<>();
+            if (sender.hasPermission("chatfilter.help")) suggestions.add("help");
+            if (sender.hasPermission("chatfilter.add")) suggestions.add("add");
+            if (sender.hasPermission("chatfilter.list")) suggestions.add("list");
+            if (sender.hasPermission("chatfilter.reload")) suggestions.add("reload");
+            if (sender.hasPermission("chatfilter.remove")) suggestions.add("remove");
+            if (sender.hasPermission("chatfilter.version")) suggestions.add("version");
+            return suggestions.stream().filter(s -> s.startsWith(args[0])).sorted().toList();
+        }
 
-        if (args.length == 2 && args[0].equalsIgnoreCase("remove")) return WordlistManager.getBlockedWords().stream().filter(s -> s.startsWith(args[2])).toList();
+        if (args.length == 2 && args[0].equalsIgnoreCase("remove") && sender.hasPermission("chatfilter.remove")) {
+            return WordlistManager.getBlockedWords().stream().filter(s -> s.startsWith(args[2])).sorted().toList();
+        }
 
         return List.of();
     }
