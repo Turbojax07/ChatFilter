@@ -18,23 +18,23 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.turbojax.ChatFilter;
 
 public enum Message {
-    PREFIX("prefix", "<gray>[%main_color%ClearLag<gray>] <white>"),
+    PREFIX("prefix", "<gray>[%main_color%ChatFilter<gray>] <white>"),
     MAIN_COLOR("main-color", "<#FA8128>"),
     // Console logs
-    CONFIG_BACKUP_SUCCESS("config-backup-success", "<gray>[<#FA8128>ClearLag<gray>] <white>Backed up the old %file% and loaded the new one."),
-    CONFIG_BACKUP_FAIL("config-backup-fail", "<gray>[<#FA8128>ClearLag<gray>] <white><red>Could not back up the old %file%."),
-    CONFIG_LOADED("config-loaded", "<gray>[<#FA8128>ClearLag<gray>] <white>Successfully loaded %file%"),
-    CONFIG_INVALID_YAML("config-invalid-yaml", "<gray>[<#FA8128>ClearLag<gray>] <white><red>%file% contains an invalid YAML configuration.  Verify the contents of the file."),
-    CONFIG_NOT_FOUND("config-not-found", "<gray>[<#FA8128>ClearLag<gray>] <white><red>Could not find %file%.  Make sure it exists."),
-    CONFIG_CANNOT_CREATE("config-cannot-create", "<gray>[<#FA8128>ClearLag<gray>] <white>Could not create %file%."),
-    CONFIG_CREATED("config-created", "<gray>[<#FA8128>ClearLag<gray>] <white>Successfully created %file%."),
-    KEY_NOT_FOUND("key-not-found", "<gray>[<#FA8128>ClearLag<gray>] <white>Could not find %key% in the config."),
+    CONFIG_BACKUP_SUCCESS("config-backup-success", "<gray>[<#FA8128>ChatFilter<gray>] <white>Backed up the old %file% and loaded the new one."),
+    CONFIG_BACKUP_FAIL("config-backup-fail", "<gray>[<#FA8128>ChatFilter<gray>] <white><red>Could not back up the old %file%."),
+    CONFIG_LOADED("config-loaded", "<gray>[<#FA8128>ChatFilter<gray>] <white>Successfully loaded %file%"),
+    CONFIG_INVALID_YAML("config-invalid-yaml", "<gray>[<#FA8128>ChatFilter<gray>] <white><red>%file% contains an invalid YAML configuration.  Verify the contents of the file."),
+    CONFIG_NOT_FOUND("config-not-found", "<gray>[<#FA8128>ChatFilter<gray>] <white><red>Could not find %file%.  Make sure it exists."),
+    CONFIG_CANNOT_CREATE("config-cannot-create", "<gray>[<#FA8128>ChatFilter<gray>] <white>Could not create %file%."),
+    CONFIG_CREATED("config-created", "<gray>[<#FA8128>ChatFilter<gray>] <white>Successfully created %file%."),
+    KEY_NOT_FOUND("key-not-found", "<gray>[<#FA8128>ChatFilter<gray>] <white>Could not find \"%key%\" in \"%file%\"."),
     // Chat logs
     NO_PERMISSION("no-permission", "%prefix%<red>You don't have permission to use this command!"),
     DETECTION_MESSAGE("detection-message", "\n%main_color%&lChatFilter Detection\n\n&8▪ &fFound some blacklisted/banned words in\n&8▪ &fa message sent by %main_color%%player%&f.\n\n&8▪ &fFull message: %main_color%%blocked_message%\n&8▪ &fBlacklisted words: %main_color%%detected_words%\n&8▪ &fTyped in: %main_color%%where_blocked%\n")
     ;
 
-    public static final File file = new File("plugins/ClearLag/messages.yml");
+    public static final File file = new File("plugins/ChatFilter/messages.yml");
     public static final FileConfiguration config = new YamlConfiguration();
 
     public static final MiniMessage minimessageSerializer = MiniMessage.miniMessage();
@@ -109,7 +109,7 @@ public enum Message {
         // Checking if the file still doesn't exist.
         if (!file.exists()) {
             sendToConsole(CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
-            return false;
+        return false;
         }
 
         sendToConsole(CONFIG_CREATED, Map.of("%file%", file.getName()));
