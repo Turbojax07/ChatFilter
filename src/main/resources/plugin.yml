@@ -17,25 +17,25 @@ permissions:
     description: "Players with this permission will be notified when a message contains blocked language."
     default: op
   chatfilter.command.add:
-    description: "Players with this permission are able to use the command \"/clearlag add\"."
+    description: "Players with this permission are able to use the command \"/chatfilter add\"."
     default: op
   chatfilter.command.remove:
-    description: "Players with this permission are able to use the command \"/clearlag remove\"."
+    description: "Players with this permission are able to use the command \"/chatfilter remove\"."
     default: op
   chatfilter.command.list:
-    description: "Players with this permission are able to use the command \"/clearlag list\"."
+    description: "Players with this permission are able to use the command \"/chatfilter list\"."
     default: op
   chatfilter.command.reload:
-    description: "Players with this permission are able to use the command \"/clearlag reload\"."
+    description: "Players with this permission are able to use the command \"/chatfilter reload\"."
     default: op
   chatfilter.command.help:
-    description: "Players with this permission are able to use the command \"/clearlag help\"."
+    description: "Players with this permission are able to use the command \"/chatfilter help\"."
     default: true
   chatfilter.command.version:
-    description: "Players with this permission are able to use the command \"/clearlag version\"."
+    description: "Players with this permission are able to use the command \"/chatfilter version\"."
     default: op
   chatfilter.command.save:
-    description: "Players with this permission are able to use the command \"/clearlag save\"."
+    description: "Players with this permission are able to use the command \"/chatfilter save\"."
     default: op
   chatfilter.bypass:
     description: "Allows players to bypass both the rename and chat filters."
