@@ -87,13 +87,13 @@ public class WordlistManager {
      * It will also redownload the remote wordlist if necessary.
      */
     public static void reload() {
+        // Redefining the wordlist
+        wordlist = new File("plugins/ChatFilter/" + MainConfig.wordlistFile());
+        
         // Downloading the wordlist if it does not exist and the wordlist is remote.
         if (!wordlist.exists() && MainConfig.useRemoteWordlist()) {
             redownload();
         }
-
-        // Redefining the wordlist
-        wordlist = new File("plugins/ChatFilter/" + MainConfig.wordlistFile());
 
         // Removing the existing words
         blockedWords.clear();
