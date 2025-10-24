@@ -33,13 +33,13 @@ public class WordlistManager {
     }
 
     @NotNull
-    public static HashMap<Integer,String> getBannedWords(String message) {
+    public static HashMap<Integer,String> getBannedWords(String text) {
         HashMap<Integer,String> foundWords = new HashMap<>();
         StringBuilder builder = new StringBuilder();
 
         blockedWords.forEach(w -> { builder.append("|"); builder.append(w); });
         Pattern pattern = Pattern.compile("\\b(" + builder.substring(1) + ")\\b", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(message);
+        Matcher matcher = pattern.matcher(text);
         
         while (matcher.find()) {
             foundWords.put(matcher.start(), matcher.group());
