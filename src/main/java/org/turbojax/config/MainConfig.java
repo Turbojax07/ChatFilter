@@ -98,9 +98,9 @@ public class MainConfig {
             return true;
         }
         
-            Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
-            return false;
-        }
+        Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
+        return false;
+    }
 
     public static boolean useRemoteWordlist() {
         return config.getBoolean("use-remote-wordlist", true);
@@ -148,8 +148,6 @@ public class MainConfig {
      * @return The version number defined by the config.
      */
     public static String getVersion() {
-        String v = config.getString("version");
-        System.out.println(v);
-        return v;
+        return config.getString("version");
     }
 }
