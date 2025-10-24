@@ -62,6 +62,19 @@ public enum Message {
             return false;
         }
 
+        // Loading the config
+        try {
+            config.load(file);
+
+            sendToConsole(CONFIG_LOADED, Map.of("%file%", file.getName()));
+        } catch (InvalidConfigurationException err) {
+            sendToConsole(CONFIG_INVALID_YAML, Map.of("%file%", file.getName()));
+            return false;
+        } catch (IOException err) {
+            sendToConsole(CONFIG_NOT_FOUND, Map.of("%file%", file.getName()));
+            return false;
+        }
+
         // Handling version mismatch
         if (!ChatFilter.getPluginVersion().equals(MainConfig.getVersion())) {
             try {
@@ -77,20 +90,7 @@ public enum Message {
                 return false;
             }
         }
-
-        // Loading the config
-        try {
-            config.load(file);
-
-            sendToConsole(CONFIG_LOADED, Map.of("%file%", file.getName()));
             return true;
-        } catch (InvalidConfigurationException err) {
-            sendToConsole(CONFIG_INVALID_YAML, Map.of("%file%", file.getName()));
-        } catch (IOException err) {
-            sendToConsole(CONFIG_NOT_FOUND, Map.of("%file%", file.getName()));
-        }
-
-        return false;
     }
 
     /**

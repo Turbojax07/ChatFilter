@@ -26,6 +26,18 @@ public class MainConfig {
             return false;
         }
 
+        // Loading the config
+        try {
+            config.load(file);
+
+            Message.sendToConsole(Message.CONFIG_LOADED, Map.of("%file%", file.getName()));
+            return true;
+        } catch (InvalidConfigurationException err) {
+            Message.sendToConsole(Message.CONFIG_INVALID_YAML, Map.of("%file%", file.getName()));
+        } catch (IOException err) {
+            Message.sendToConsole(Message.CONFIG_NOT_FOUND, Map.of("%file%", file.getName()));
+        }
+
         // Handling version mismatch
         if (!ChatFilter.getPluginVersion().equals(getVersion())) {
             try {
@@ -42,19 +54,7 @@ public class MainConfig {
             }
         }
 
-        // Loading the config
-        try {
-            config.load(file);
-
-            Message.sendToConsole(Message.CONFIG_LOADED, Map.of("%file%", file.getName()));
-            return true;
-        } catch (InvalidConfigurationException err) {
-            Message.sendToConsole(Message.CONFIG_INVALID_YAML, Map.of("%file%", file.getName()));
-        } catch (IOException err) {
-            Message.sendToConsole(Message.CONFIG_NOT_FOUND, Map.of("%file%", file.getName()));
-        }
-
-        return false;
+        return true;
     }
 
     /**
