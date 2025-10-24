@@ -122,20 +122,21 @@ public enum Message {
      * @return Whether or not the file was created successfully.
      */
     public static boolean createFile(boolean replace) {
-        // Creating the file if it doesn't exist.
-        if (!file.exists()) {
-            ChatFilter.getInstance().saveResource(file.getName(), replace);
-        }
+        // Skipping if the file already exists and replace is false
+        if (file.exists() && !replace) return true;
 
-        // Checking if the file still doesn't exist.
-        if (!file.exists()) {
-            sendToConsole(CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
+        // Creating the file.
+        ChatFilter.getInstance().saveResource(file.getName(), true);
+
+        // Checking if the file exists now.
+        if (file.exists()) {
+            Message.sendToConsole(Message.CONFIG_CREATED, Map.of("%file%", file.getName()));
+            return true;
+        }
+        
+        Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
         return false;
         }
-
-        sendToConsole(CONFIG_CREATED, Map.of("%file%", file.getName()));
-        return true;
-    }
 
     /**
      * Gets a message from the config.

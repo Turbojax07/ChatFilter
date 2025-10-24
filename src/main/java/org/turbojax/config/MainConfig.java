@@ -86,21 +86,21 @@ public class MainConfig {
      * @return Whether the file was created successfully or not.
      */
     public static boolean createFile(boolean replace) {
-        // Creating the file if it doesn't exist.
-        if (!file.exists()) {
-            ChatFilter.getInstance().saveResource(file.getName(), replace);
-        }
+        // Skipping if the file already exists and replace is false
+        if (file.exists() && !replace) return true;
 
-        // Checking if the file still doesn't exist.
-        System.out.println("File exists: " + file.exists());
-        if (!file.exists()) {
+        // Creating the file.
+        ChatFilter.getInstance().saveResource(file.getName(), true);
+
+        // Checking if the file exists now.
+        if (file.exists()) {
+            Message.sendToConsole(Message.CONFIG_CREATED, Map.of("%file%", file.getName()));
+            return true;
+        }
+        
             Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
             return false;
         }
-
-        Message.sendToConsole(Message.CONFIG_CREATED, Map.of("%file%", file.getName()));
-        return true;
-    }
 
     public static boolean useRemoteWordlist() {
         return config.getBoolean("use-remote-wordlist", true);
