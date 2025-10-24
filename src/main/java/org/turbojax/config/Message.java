@@ -69,7 +69,7 @@ public enum Message {
                 Files.copy(file.toPath(), Paths.get(file.getPath() + ".old"));
 
                 // Loading configs for this version
-                ChatFilter.getInstance().saveResource("config.yml", true);
+                ChatFilter.getInstance().saveResource(file.getName(), true);
 
                 sendToConsole(CONFIG_BACKUP_SUCCESS, Map.of("%file%", file.getName()));
             } catch (IOException e) {
