@@ -90,7 +90,7 @@ public enum Message {
                 return false;
             }
         }
-            return true;
+        return true;
     }
 
     /**
@@ -136,7 +136,7 @@ public enum Message {
         
         Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
         return false;
-        }
+    }
 
     /**
      * Gets a message from the config.
@@ -147,8 +147,9 @@ public enum Message {
      */
     public static String getMessage(Message key) {
         if (!config.contains(key.configKey)) {
-            String msg = (key == KEY_NOT_FOUND) ? key.defaultValue : getMessage(key);
-            sendToConsole(msg.replace("%key%", key.configKey));
+            if (key != KEY_NOT_FOUND) {
+                sendToConsole(getMessage(KEY_NOT_FOUND), Map.of("%key%", key.configKey, "%file%", file.getName()));
+            }
             
             return key.defaultValue;
         }
