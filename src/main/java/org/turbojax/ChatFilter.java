@@ -40,6 +40,10 @@ public final class ChatFilter extends JavaPlugin {
         instance = this;
 
         // Loading configs
+        // unsafeLoad does no logging or version checks
+        MainConfig.unsafeLoad();
+        Message.unsafeLoad();
+
         MainConfig.load();
         Message.load();
 

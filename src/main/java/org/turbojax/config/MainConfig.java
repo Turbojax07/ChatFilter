@@ -58,6 +58,27 @@ public class MainConfig {
     }
 
     /**
+     * Loads the configuration.
+     * This does no logging or version checks, and it is recommended to run the load function after both configs have gone through an "unsafe" load.
+     */
+    public static void unsafeLoad() {
+        // Creating the file if it doesn't exist.
+        if (!file.exists()) {
+            ChatFilter.getInstance().saveResource(file.getName(), false);
+        }
+
+        // Checking if the file still doesn't exist.
+        if (!file.exists()) return;
+
+        // Loading the config
+        try {
+            config.load(file);
+        } catch (Exception err) {}
+
+        return;
+    }
+
+    /**
      * Creating the config file. If it doesn't exist, it loads the default config. If the file does
      * exist, it will only replace it if the parameter is true.
      *
