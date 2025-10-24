@@ -10,6 +10,8 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.turbojax.config.MainConfig;
 import org.turbojax.config.Message;
+import org.turbojax.listeners.AnvilRenameListener;
+import org.turbojax.listeners.ChatListener;
 
 public final class ChatFilter extends JavaPlugin {
     private static ChatFilter instance = null;
@@ -48,6 +50,10 @@ public final class ChatFilter extends JavaPlugin {
         PluginCommand cmd = getCommand("chatfilter");
         cmd.setExecutor(new ChatFilterCommand());
         cmd.setTabCompleter(new ChatFilterCommand());
+
+        // Registering event listeners
+        getServer().getPluginManager().registerEvents(new AnvilRenameListener(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
     }
 
     @Override
