@@ -3,6 +3,7 @@ package org.turbojax.listeners;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,7 +50,7 @@ public class AnvilRenameListener implements Listener {
                 LogManager.log(Message.plaintext.serialize(Message.toComponent(Message.FILTER_ANVIL_CANCEL_LOG, placeholders)));
 
                 placeholders.putAll(Message.getCommonPlaceholders());
-                Message.send(player, Message.FILTER_ANVIL_CANCEL_MESSAGE, placeholders);
+                Bukkit.broadcast(Message.toComponent(Message.FILTER_ANVIL_CANCEL_MESSAGE, placeholders), "chatfilter.notify");
                 Message.send(player, Message.FILTER_ANVIL_CANCEL_WARNING, placeholders);
             }
 
@@ -69,7 +70,7 @@ public class AnvilRenameListener implements Listener {
                     LogManager.log(Message.applyPlaceholders(Message.getMessage(Message.FILTER_ANVIL_CENSOR_LOG), placeholders));
 
                     placeholders.putAll(Message.getCommonPlaceholders());
-                    Message.send(player, Message.FILTER_ANVIL_CENSOR_MESSAGE, placeholders);
+                    Bukkit.broadcast(Message.toComponent(Message.FILTER_ANVIL_CENSOR_MESSAGE, placeholders), "chatfilter.notify");
                     Message.send(player, Message.FILTER_ANVIL_CENSOR_WARNING, placeholders);
                 }
             }

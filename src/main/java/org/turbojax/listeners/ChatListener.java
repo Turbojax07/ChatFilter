@@ -41,7 +41,7 @@ public class ChatListener implements Listener {
             LogManager.log(Message.plaintext.serialize(Message.toComponent(Message.FILTER_CHAT_CANCEL_LOG, placeholders)));
 
             placeholders.putAll(Message.getCommonPlaceholders());
-            Message.send(player, Message.FILTER_CHAT_CANCEL_MESSAGE, placeholders);
+            Bukkit.broadcast(Message.toComponent(Message.FILTER_CHAT_CANCEL_MESSAGE, placeholders), "chatfilter.notify");
             Message.send(player, Message.FILTER_CHAT_CANCEL_WARNING, placeholders);
         }
 
