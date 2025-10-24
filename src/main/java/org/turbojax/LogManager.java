@@ -36,8 +36,6 @@ public class LogManager {
             nextId += files.count();
         } catch (IOException e) {
             Message.sendToConsole("Could not open the log directory");
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         logFile = new File(logDir, date + "-" + nextId + ".log");
