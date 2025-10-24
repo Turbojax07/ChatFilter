@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import net.kyori.adventure.audience.Audience;
@@ -152,16 +153,19 @@ public enum Message {
             return false;
         }
 
+        Map<String,String> placeholders = getCommonPlaceholders();
+        placeholders.put("%file%", file.getName());
+
         // Loading the config
         try {
             config.load(file);
 
-            sendToConsole(CONFIG_LOADED, Map.of("%file%", file.getName()));
+            sendToConsole(CONFIG_LOADED, placeholders);
         } catch (InvalidConfigurationException err) {
-            sendToConsole(CONFIG_INVALID_YAML, Map.of("%file%", file.getName()));
+            sendToConsole(CONFIG_INVALID_YAML, placeholders);
             return false;
         } catch (IOException err) {
-            sendToConsole(CONFIG_NOT_FOUND, Map.of("%file%", file.getName()));
+            sendToConsole(CONFIG_NOT_FOUND, placeholders);
             return false;
         }
 
@@ -174,9 +178,9 @@ public enum Message {
                 // Loading configs for this version
                 ChatFilter.getInstance().saveResource(file.getName(), true);
 
-                sendToConsole(CONFIG_BACKUP_SUCCESS, Map.of("%file%", file.getName()));
+                sendToConsole(CONFIG_BACKUP_SUCCESS, placeholders);
             } catch (IOException e) {
-                sendToConsole(CONFIG_BACKUP_FAIL, Map.of("%file%", file.getName()));
+                sendToConsole(CONFIG_BACKUP_FAIL, placeholders);
                 return false;
             }
         }
@@ -218,13 +222,16 @@ public enum Message {
         // Creating the file.
         ChatFilter.getInstance().saveResource(file.getName(), true);
 
+        Map<String,String> placeholders = getCommonPlaceholders();
+        placeholders.put("%file%", file.getName());
+
         // Checking if the file exists now.
         if (file.exists()) {
-            Message.sendToConsole(Message.CONFIG_CREATED, Map.of("%file%", file.getName()));
+            Message.sendToConsole(Message.CONFIG_CREATED, placeholders);
             return true;
         }
         
-        Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, Map.of("%file%", file.getName()));
+        Message.sendToConsole(Message.CONFIG_CANNOT_CREATE, placeholders);
         return false;
     }
 
@@ -258,6 +265,10 @@ public enum Message {
         }
     }
 
+    public static Map<String,String> getCommonPlaceholders() {
+        return new HashMap<>(Map.of("%prefix%", getMessage(PREFIX), "%main_color%", getMessage(MAIN_COLOR)));
+    }
+
     /**
      * Converts a message to a component by passing it through legacy and minimessage formatting.
      *
@@ -269,13 +280,6 @@ public enum Message {
         return toComponent(getMessage(message));
     }
 
-    /**
-     * Converts a message to a component by passing it through legacy and minimessage formatting.
-     *
-     * @param message The string to convert.
-     *
-     * @return The component value of the message.
-     */
     public static Component toComponent(String message) {
         // Passing the string through legacy and minimessage serialization
         Component legacy = legacySerializer.deserialize(message);
@@ -284,43 +288,65 @@ public enum Message {
         return minimessageSerializer.deserialize(message);
     }
 
-    public static Map<String,String> getCommonPlaceholders() {
-        return Map.of("%prefix%", getMessage(PREFIX), "%main_color%", getMessage(MAIN_COLOR));
+    public static Component toComponent(Message message, Map<String,String> placeholders) {
+        return toComponent(applyPlaceholders(getMessage(message), placeholders));
+    }
+
+    /**
+     * Converts a message to a component by passing it through legacy and minimessage formatting.
+     *
+     * @param message The string to convert.
+     *
+     * @return The component value of the message.
+     */
+    public static Component toComponent(String message, Map<String,String> placeholders) {
+        return toComponent(applyPlaceholders(message, placeholders));
     }
 
     public static void sendToConsole(Message message) {
-        send(Bukkit.getConsoleSender(), getMessage(message), Map.of());
+        send(Bukkit.getConsoleSender(), getMessage(message));
     }
 
     public static void sendToConsole(String message) {
-        send(Bukkit.getConsoleSender(), message, Map.of());
+        send(Bukkit.getConsoleSender(), message);
     }
 
     public static void sendToConsole(Message message, Map<String,String> placeholders) {
-        send(Bukkit.getConsoleSender(), getMessage(message), placeholders);
+        send(Bukkit.getConsoleSender(), applyPlaceholders(getMessage(message), placeholders));
     }
 
     public static void sendToConsole(String message, Map<String,String> placeholders) {
-        send(Bukkit.getConsoleSender(), message, placeholders);
+        send(Bukkit.getConsoleSender(), applyPlaceholders(message, placeholders));
     }
 
     public static void send(Audience audience, Message message) {
-        send(audience, getMessage(message), Map.of());
+        send(audience, getMessage(message));
     }
 
     public static void send(Audience audience, String message) {
-        send(audience, message, Map.of());
+        audience.sendMessage(toComponent(message));
     }
 
     public static void send(Audience audience, Message message, Map<String,String> placeholders) {
-        send(audience, getMessage(message), placeholders);
+        send(audience, applyPlaceholders(getMessage(message), placeholders));
     }
 
     public static void send(Audience audience, String message, Map<String,String> placeholders) {
+        send(audience, applyPlaceholders(message, placeholders));
+    }
+
+    public static String applyPlaceholders(String message, Map<String,String> placeholders) {
+        boolean allPassed = false;
+        while (!allPassed) {
+            allPassed = true;
+
         for (Entry<String,String> placeholder : placeholders.entrySet()) {
+                if (message.contains(placeholder.getKey())) allPassed = false;
+
             message = message.replace(placeholder.getKey(), placeholder.getValue());
+            }
         }
 
-        audience.sendMessage(toComponent(message));
+        return message;
     }
 }
