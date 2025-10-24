@@ -38,7 +38,7 @@ public class WordlistManager {
         StringBuilder builder = new StringBuilder();
 
         blockedWords.forEach(w -> { builder.append("|"); builder.append(w); });
-        Pattern pattern = Pattern.compile("\\b" + builder.substring(1) + "\\b");
+        Pattern pattern = Pattern.compile("\\b(" + builder.substring(1) + ")\\b");
         Matcher matcher = pattern.matcher(message);
         
         while (matcher.find()) {
